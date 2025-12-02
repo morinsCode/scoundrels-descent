@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 // === DB TEST ENDPOINT ===
-app.get("/db-test", async (req, res) => {
+app.get("/api/db-test", async (req, res) => {
   try {
     const result: QueryResult<{ now: string }> = await database.query(
       "SELECT NOW() as now"
@@ -14,7 +14,7 @@ app.get("/db-test", async (req, res) => {
 
     res.json({
       status: "ok",
-      now: result.rows[0]?.now, //optional chaining in case of empty result
+      now: result.rows[0]?.now //optional chaining in case of empty result
     });
   } catch (err) {
     console.error("Error in /db-test:", err);
