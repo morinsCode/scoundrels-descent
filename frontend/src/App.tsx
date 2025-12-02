@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import viteLogo from "/vite.svg"; */
 import "./App.css";
 import { fetchDbStatus, type DbStatus } from "./api";
+import { Button, Container } from "@mui/material";
+import sdlogo from "./assets/sdlogo.png";
 
 function App() {
   /* const [count, setCount] = useState(0); */
@@ -17,17 +19,21 @@ function App() {
 
   return (
     <>
-      {/*       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div> */}
-      <div>
+      <img src={sdlogo} alt="Scoundrels Descent Logo" />
+      <Container maxWidth="md">
         <h1>Scoundrels Descent</h1>
-
+        <Button variant="contained" color="primary">
+          Start New Game
+        </Button>
+        <Button variant="outlined" color="secondary" style={{ marginLeft: 8 }}>
+          How To Play
+        </Button>
+        <Button variant="text" color="inherit" style={{ marginLeft: 8 }}>
+          High Scores
+        </Button>
+        <Button variant="text" color="inherit" style={{ marginLeft: 8 }}>
+          About
+        </Button>
         {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
         {dbStatus ? (
@@ -37,7 +43,7 @@ function App() {
         ) : (
           !error && <p>Checking database connection…</p>
         )}
-      </div>
+      </Container>
       {/*       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
