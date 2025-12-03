@@ -1,14 +1,22 @@
+// === STYLING
+
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./../theme";
 import { Button, Container, Box } from "@mui/material";
-import sdlogo from "../assets/sdlogo.png"; // note one fewer "./"
+import sdlogo from "../assets/sdlogo.png";
+
+// === REACT
 import { useState, useEffect } from "react";
 import { fetchDbStatus, type DbStatus } from "./../api";
+
+// === TYPES
 
 type StartScreenProps = {
   onStartNewGame: () => void;
 };
+
+// === COMPONENT
 
 export function StartScreen({ onStartNewGame }: StartScreenProps) {
   const [dbStatus, setDbStatus] = useState<DbStatus | null>(null);
@@ -53,25 +61,13 @@ export function StartScreen({ onStartNewGame }: StartScreenProps) {
           >
             New Game
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            style={{ marginLeft: 8 }}
-          >
+          <Button variant="outlined" color="secondary">
             How To Play
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            style={{ marginLeft: 8 }}
-          >
+          <Button variant="outlined" color="secondary">
             High Scores
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            style={{ marginLeft: 8 }}
-          >
+          <Button variant="outlined" color="secondary">
             About
           </Button>
           {error && <p style={{ color: "red" }}>Error: {error}</p>}

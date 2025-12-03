@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StartScreen } from "./components/StartScreen";
 
-/* import { GameScreen } from "./GameScreen"; */
+import { GameScreen } from "./components/GameScreen";
 
 type Screen = "start" | "game";
 
@@ -12,16 +12,16 @@ export default function App() {
     setScreen("game");
   }
 
-  /*   function handleBackToMenu() {
+  function handleBackToMenu() {
     setScreen("start");
-  } */
+  }
 
   return (
     <>
       {screen === "start" && (
         <StartScreen onStartNewGame={handleStartNewGame} />
       )}
-      {/*       {screen === "game" && <GameScreen onExitToMenu={handleBackToMenu} />} */}
+      {screen === "game" && <GameScreen onExitToMenu={handleBackToMenu} />}
     </>
   );
 }
