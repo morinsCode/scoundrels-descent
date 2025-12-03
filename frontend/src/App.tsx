@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 /* import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg"; */
-import "./App.css";
+/* import "./App.css"; */
 import { fetchDbStatus, type DbStatus } from "./api";
 import { Button, Container } from "@mui/material";
 import sdlogo from "./assets/sdlogo.png";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./theme";
 
 function App() {
   /* const [count, setCount] = useState(0); */
@@ -19,31 +22,47 @@ function App() {
 
   return (
     <>
-      <img src={sdlogo} alt="Scoundrels Descent Logo" />
-      <Container maxWidth="md">
-        <h1>Scoundrels Descent</h1>
-        <Button variant="contained" color="primary">
-          Start New Game
-        </Button>
-        <Button variant="outlined" color="secondary" style={{ marginLeft: 8 }}>
-          How To Play
-        </Button>
-        <Button variant="text" color="inherit" style={{ marginLeft: 8 }}>
-          High Scores
-        </Button>
-        <Button variant="text" color="inherit" style={{ marginLeft: 8 }}>
-          About
-        </Button>
-        {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container>
+          <img src={sdlogo} alt="Scoundrels Descent Logo" />
+          <Container>
+            <Button variant="contained" color="secondary">
+              Start New Game
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: 8 }}
+            >
+              How To Play
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: 8 }}
+            >
+              High Scores
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: 8 }}
+            >
+              About
+            </Button>
+          </Container>
+          {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
-        {dbStatus ? (
-          <p>
-            DB status: {dbStatus.status} – {dbStatus.now}
-          </p>
-        ) : (
-          !error && <p>Checking database connection…</p>
-        )}
-      </Container>
+          {dbStatus ? (
+            <p>
+              DB status: {dbStatus.status} – {dbStatus.now}
+            </p>
+          ) : (
+            !error && <p>Checking database connection…</p>
+          )}
+        </Container>
+      </ThemeProvider>
       {/*       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
