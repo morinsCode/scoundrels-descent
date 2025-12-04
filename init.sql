@@ -1,25 +1,30 @@
+DROP TABLE IF EXISTS cards;
+
+DROP TYPE IF EXISTS card_type;
+
 CREATE TYPE card_type AS ENUM ('monster', 'weapon', 'aid');
 
 CREATE TABLE cards (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    type card_type NOT NULL,
+    card_type card_type NOT NULL,
     level INT NOT NULL,
     image_url TEXT,
     description TEXT
 );
 
 
-INSERT INTO cards (name, type, level, image_url, description) VALUES
+INSERT INTO cards (name, card_type, level, image_url, description) 
+VALUES
 -- LEVEL 2
-('Goblin Scout',           'monster', 2, '/images/monsters/goblin_scout.png',           'A weak but nimble goblin, barely armed.'),
+('Goblin Scout',           'monster', 2, '/images/monsters/goblin_scout.png',          'A weak but nimble goblin, barely armed.'),
 ('Cave Rat Swarm',         'monster', 2, '/images/monsters/cave_rat_swarm.png',        'A chittering mass of diseased rats.'),
 ('Cracked Dagger',         'weapon',  2, '/images/weapons/cracked_dagger.png',         'Barely sharp, but better than your fists.'),
 ('Minor Red Herb',         'aid',     2, '/images/aids/minor_red_herb.png',            'A simple herb that restores a sliver of vitality.'),
 
 -- LEVEL 3
 ('Sewer Slime',            'monster', 3, '/images/monsters/sewer_slime.png',           'Slow, corrosive, and disturbingly persistent.'),
-('Tomb Bat',               'monster', 3, '/images/monsters/tomb_bat.png',             'Bites from the shadows and flees.'),
+('Tomb Bat',               'monster', 3, '/images/monsters/tomb_bat.png',              'Bites from the shadows and flees.'),
 ('Rusty Shortsword',       'weapon',  3, '/images/weapons/rusty_shortsword.png',       'Old and pitted, but still cuts.'),
 ('Weak Healing Tonic',     'aid',     3, '/images/aids/weak_healing_tonic.png',        'A thin brew that closes minor wounds.'),
 
@@ -78,5 +83,5 @@ INSERT INTO cards (name, type, level, image_url, description) VALUES
 ('Doomcaller Warlock',     'monster', 13, '/images/monsters/doomcaller_warlock.png',   'Channels catastrophic arcane forces.'),
 
 -- LEVEL 14 (Ace)
-('Ancient Dragon Wraith',  'monster', 14, '/images/monsters/ancient_dragon_wraith.png','The echo of a dragon''s rage after death.'),
-('Demon Lord of Chains',   'monster', 14, '/images/monsters/demon_lord_of_chains.png','A towering fiend bound in its own shackles.');
+('Ancient Dragon Wraith',  'monster', 14, '/images/monsters/ancient_dragon.png',       'The echo of a dragon''s rage after death.'),
+('Demon Lord of Chains',   'monster', 14, '/images/monsters/demon_lord_of_chains.png', 'A towering fiend bound in its own shackles.');
