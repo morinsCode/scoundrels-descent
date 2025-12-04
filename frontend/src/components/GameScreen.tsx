@@ -9,7 +9,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
   return (
     <>
       <div>Game Screen (under construction)</div>
-      <Button onClick={onExitToMenu}>Back to Menu</Button>
+      <Button onClick={onExitToMenu}>Back to Menu (Abandons game)</Button>
     </>
   );
 }

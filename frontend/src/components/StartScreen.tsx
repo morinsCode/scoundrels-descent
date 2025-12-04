@@ -59,7 +59,7 @@ export function StartScreen({ onStartNewGame }: StartScreenProps) {
             color="secondary"
             onClick={onStartNewGame} // <-- actually use the prop
           >
-            New Game
+            Start Game
           </Button>
           <Button variant="outlined" color="secondary">
             How To Play
