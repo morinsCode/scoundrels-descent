@@ -1,5 +1,6 @@
 import express from "express";
-import { database } from "./database.ts";
+/* import { database } from "./database.ts"; */
+import { pool } from "./database.js";
 import type { QueryResult } from "pg";
 
 const app = express();
@@ -8,7 +9,7 @@ app.use(express.json());
 // === DB TEST ENDPOINT ===
 app.get("/api/db-test", async (req, res) => {
   try {
-    const result: QueryResult<{ now: string }> = await database.query(
+    const result: QueryResult<{ now: string }> = await pool.query(
       "SELECT NOW() as now"
     );
 
