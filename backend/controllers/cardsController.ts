@@ -1,8 +1,8 @@
 // === CONTROLLER FILE FOR CARDS ===
 
 // src/controllers/cardsController.ts
-import { Request, Response, NextFunction } from "express";
-import { getRandomDeck } from "../services/cardsService";
+import type { Request, Response, NextFunction } from "express";
+import { getRandomDeck } from "../services/cardsServices.js";
 
 const DEFAULT_DECK_SIZE = 44;
 

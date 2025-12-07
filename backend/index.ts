@@ -2,9 +2,12 @@ import express from "express";
 /* import { database } from "./database.ts"; */
 import { pool } from "./database.js";
 import type { QueryResult } from "pg";
+import cardsRouter from "./routes/cardsRoutes.js";
 
 const app = express();
 app.use(express.json());
+
+app.use("/api/cards", cardsRouter);
 
 // === DB TEST ENDPOINT ===
 app.get("/api/db-test", async (req, res) => {
