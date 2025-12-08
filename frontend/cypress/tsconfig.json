@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["cypress"],
+    "types": ["cypress", "@badeball/cypress-cucumber-preprocessor"],
     "isolatedModules": false
   },
   "include": ["../src/**/*.ts", "../src/**/*.tsx", "./**/*.ts", "./**/*.tsx"]
