@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["cypress"],
+    "isolatedModules": false
+  },
+  "include": ["../src/**/*.ts", "../src/**/*.tsx", "./**/*.ts", "./**/*.tsx"]
+}
