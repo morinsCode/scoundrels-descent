@@ -44,7 +44,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
     initializeDeck();
   }, []);
 
-  // Test for drawing cards
+  /* // Test for drawing cards
   const handleDrawCards = () => {
     if (!gameDeck) return;
 
@@ -62,7 +62,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
 
   if (error) {
     return <div>Error: {error}</div>;
-  }
+  } */
 
   return (
     <ThemeProvider theme={theme}>
@@ -80,7 +80,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
           <div>Game Screen</div>
           <div>Cards remaining: {gameDeck?.remainingCards()}</div>
 
-          <Button
+          {/*           <Button
             variant="contained"
             color="secondary"
             onClick={handleDrawCards}
@@ -88,7 +88,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
           >
             Draw 5 Cards
           </Button>
-
+ */}
           <Button variant="contained" color="secondary" onClick={onExitToMenu}>
             Quit Game
           </Button>
