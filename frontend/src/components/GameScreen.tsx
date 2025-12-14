@@ -3,7 +3,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./../theme";
 
+import { GameState } from "../game-engine/GameState";
 import { GameDeck } from "../game-engine/GameDeck";
+import { Player } from "../game-engine/Player";
+import { Room } from "../game-engine/Room";
+
 import type { Card } from "../game-engine/types";
 
 import { Button, Container } from "@mui/material";
@@ -15,6 +19,7 @@ type GameScreenProps = {
 
 export function GameScreen({ onExitToMenu }: GameScreenProps) {
   const [gameDeck, setGameDeck] = useState<GameDeck | null>(null);
+  const [gameState, setGameState] = useState<GameState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,6 +48,23 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
 
     initializeDeck();
   }, []);
+
+  useEffect(() => {
+    console.log("GameState initialization effect triggered");
+    console.log("gameDeck:", gameDeck);
+
+    if (gameDeck) {
+      console.log("Creating new GameState with drawPile:", gameDeck.drawPile);
+      const state = new GameState(gameDeck.drawPile);
+      console.log("GameState created:", state);
+      console.log("Player health:", state.player.currentHealth);
+      /*  console.log("Current room cards:", state.currentRoom.cards); */
+      console.log("State of run:", state.stateOfRun);
+      setGameState(state);
+    } else {
+      console.log("gameDeck is null, skipping GameState creation");
+    }
+  }, [gameDeck]);
 
   /* // Test for drawing cards
   const handleDrawCards = () => {
@@ -80,15 +102,6 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
           <div>Game Screen</div>
           <div>Cards remaining: {gameDeck?.remainingCards()}</div>
 
-          {/*           <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleDrawCards}
-            disabled={!gameDeck || gameDeck.remainingCards() === 0}
-          >
-            Draw 5 Cards
-          </Button>
- */}
           <Button variant="contained" color="secondary" onClick={onExitToMenu}>
             Quit Game
           </Button>

@@ -6,6 +6,9 @@ export type Card = {
   imageUrl: string;
   description: string;
 };
+
+export type RunState = "not_started" | "in_progress" | "completed" | "failed";
+
 /* 
 export interface GameDeck {
   drawPile: Card[];
