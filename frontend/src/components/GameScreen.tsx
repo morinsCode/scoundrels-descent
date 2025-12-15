@@ -13,6 +13,11 @@ import type { Card } from "../game-engine/types";
 import { Button, Container } from "@mui/material";
 import { useState, useEffect } from "react";
 
+import { NotStartedScreen } from "./NotStartedScreen";
+import { InProgressScreen } from "./InProgressScreen";
+import { CompletedRunScreen } from "./CompletedRunScreen";
+import { FailedRunScreen } from "./FailedScreen";
+
 type GameScreenProps = {
   onExitToMenu: () => void;
 };
@@ -93,75 +98,29 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
           }}
         >
           {gameState.stateOfRun === "not_started" && (
-            <>
-              <div>Ready to Start</div>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  gameState.startRun();
-                  forceUpdate((prev) => prev + 1); // Force re-render
-                }}
-              >
-                Start Run
-              </Button>
-            </>
+            <NotStartedScreen
+              gameState={gameState}
+              onStart={() => {
+                gameState.startRun();
+                forceUpdate((prev) => prev + 1);
+              }}
+            />
           )}
 
           {gameState.stateOfRun === "in_progress" && (
-            <>
-              <div>Game Screen</div>
-              <div>Room: {gameState.roomIndex}</div>
-              <div>Health: {gameState.player.currentHealth}</div>
-              <div>Cards remaining: {gameDeck?.remainingCards()}</div>
-
-              <div style={{ marginTop: "20px" }}>
-                <h3>Current Room Cards:</h3>
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                  {gameState.currentRoom?.cards.map((card) => (
-                    <div
-                      key={card.id}
-                      style={{
-                        border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        padding: "10px",
-                        width: "150px",
-                        textAlign: "center"
-                      }}
-                    >
-                      <img
-                        src={card.imageUrl}
-                        alt={card.name}
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                          borderRadius: "4px"
-                        }}
-                      />
-                      <h4>{card.name}</h4>
-                      <p>Type: {card.cardType}</p>
-                      <p>Level: {card.level}</p>
-                      <p style={{ fontSize: "12px" }}>{card.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
+            <InProgressScreen
+              gameState={gameState}
+              gameDeck={gameDeck}
+              onUpdate={() => forceUpdate((prev) => prev + 1)}
+            />
           )}
 
           {gameState.stateOfRun === "completed" && (
-            <>
-              <div>Run Completed!</div>
-              <div>Final Score: {gameState.scoreRun()}</div>
-            </>
+            <CompletedRunScreen gameState={gameState} />
           )}
 
           {gameState.stateOfRun === "failed" && (
-            <>
-              <div>Run Failed</div>
-              <div>You died at room {gameState.roomIndex}</div>
-              <div>Score: {gameState.scoreRun()}</div>
-            </>
+            <FailedRunScreen gameState={gameState} />
           )}
 
           <Button variant="contained" color="secondary" onClick={onExitToMenu}>
