@@ -66,25 +66,17 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
     }
   }, [gameDeck]);
 
-  /* // Test for drawing cards
-  const handleDrawCards = () => {
-    if (!gameDeck) return;
-
-    const drawnCards = gameDeck.drawCards(5); // Draw 5 cards
-    console.log("Drew cards:", drawnCards);
-    console.log("Remaining:", gameDeck.remainingCards());
-
-    // Force re-render by creating new instance
-    setGameDeck(new GameDeck(gameDeck.drawPile));
-  };
-
   if (isLoading) {
     return <div>Loading deck...</div>;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
-  } */
+  }
+
+  if (!gameState) {
+    return <div>Initializing game...</div>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,8 +91,45 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
             mt: 4
           }}
         >
-          <div>Game Screen</div>
-          <div>Cards remaining: {gameDeck?.remainingCards()}</div>
+          {gameState.stateOfRun === "not_started" && (
+            <>
+              <div>Ready to Start</div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  gameState.startRun();
+                  setGameState({ ...gameState });
+                }}
+              >
+                Start Run
+              </Button>
+            </>
+          )}
+
+          {gameState.stateOfRun === "in_progress" && (
+            <>
+              <div>Game Screen</div>
+              <div>Room: {gameState.roomIndex}</div>
+              <div>Health: {gameState.player.currentHealth}</div>
+              <div>Cards remaining: {gameDeck?.remainingCards()}</div>
+            </>
+          )}
+
+          {gameState.stateOfRun === "completed" && (
+            <>
+              <div>Run Completed!</div>
+              <div>Final Score: {gameState.scoreRun()}</div>
+            </>
+          )}
+
+          {gameState.stateOfRun === "failed" && (
+            <>
+              <div>Run Failed</div>
+              <div>You died at room {gameState.roomIndex}</div>
+              <div>Score: {gameState.scoreRun()}</div>
+            </>
+          )}
 
           <Button variant="contained" color="secondary" onClick={onExitToMenu}>
             Quit Game
