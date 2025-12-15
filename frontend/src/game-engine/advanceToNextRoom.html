@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <pre class="mermaid">
+flowchart TD
+  A[advanceToNextRoom] --> B{stateOfRun === in_progress?}
+  B -- No --> Z1[Return early]
+  B -- Yes --> C[Get carryOver cards]
+  C --> D[Calculate needed cards]
+  D --> E[Draw new cards]
+  E --> F[Combine into roomCards]
+  F --> G{roomCards empty?}
+  G -- Yes --> H[currentRoom = null]
+  H --> I[checkEndConditions]
+  I --> Z2[Return]
+  G -- No --> J[Increment roomIndex]
+  J --> K[Create new Room]
+  K --> Z3[End]
+    </pre>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>

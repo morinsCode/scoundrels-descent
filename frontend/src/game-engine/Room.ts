@@ -1,5 +1,5 @@
 import type { Card } from "../game-engine/types";
-/* import { GameDeck } from "../game-engine/GameDeck"; */
+import { GameDeck } from "../game-engine/GameDeck";
 import { Player } from "../game-engine/Player";
 
 export class Room {
@@ -14,7 +14,7 @@ export class Room {
   resolveCard(
     card: Card,
     player: Player,
-    //deck: GameDeck,
+    _deck: GameDeck,
     useWeapon: boolean
   ): void {
     // # Find and remove the card from this room
@@ -73,6 +73,10 @@ export class Room {
     }
 
     player.adjustHealth(-damage);
+  }
+
+  isResolved(): boolean {
+    return this.numberOfCardsResolved >= 3;
   }
 
   /* 

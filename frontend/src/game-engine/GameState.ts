@@ -8,7 +8,7 @@ export class GameState {
   gameDeck: GameDeck;
   player: Player;
   currentRoom: Room | null;
-  stateOfRun: "not_started" | "in_progress" | "completed" | "failed";
+  stateOfRun: RunState;
   roomIndex: number;
   avoidedPreviousRoom: boolean;
 
@@ -24,38 +24,102 @@ export class GameState {
   }
 
   startRun(): void {
+    if (this.stateOfRun !== "not_started") return;
+
     this.stateOfRun = "in_progress";
-    this.advanceToNextRoom();
+    this.roomIndex = 0;
+    this.avoidedPreviousRoom = false;
+    this.createFirstRoom();
+    this.checkEndConditions();
+  }
+
+  private createFirstRoom(): void {
+    const cards = this.gameDeck.drawCards(4);
+    if (cards.length === 0) {
+      throw new Error("Tried to create first room, but deck is empty");
+    }
+    this.roomIndex = 1;
+    this.currentRoom = new Room(cards);
   }
 
   advanceToNextRoom(): void {
-    const roomCards = this.gameDeck.drawCards(3);
-    this.currentRoom = new Room(roomCards);
+    if (this.stateOfRun !== "in_progress") return;
+
+    const carryOver: Card[] = this.currentRoom
+      ? [...this.currentRoom.cards]
+      : [];
+    const needed = Math.max(0, 4 - carryOver.length);
+    const newCards = needed > 0 ? this.gameDeck.drawCards(needed) : [];
+    const roomCards = [...carryOver, ...newCards];
+
+    if (roomCards.length === 0) {
+      // no cards left anywhere → run is finished
+      this.currentRoom = null;
+      this.checkEndConditions();
+      return;
+    }
+
     this.roomIndex += 1;
+    this.currentRoom = new Room(roomCards);
   }
 
   avoidRoom(): void {
-    //advanceToNextRoom without resolving current room and putCardsOnBottom
-    // can only avoid one room in a row
-
-    /* Missing bits:
-- After avoiding, you should **immediately** create a new room (unless the deck is empty). Right now you end up with `currentRoom = null` and nothing else.
-- `avoidedPreviousRoom` should later be reset to `false` when you resolve a room normally (in `advanceToNextRoom` after a non-avoided room). */
+    if (this.stateOfRun !== "in_progress") return;
 
     if (this.avoidedPreviousRoom) {
       throw new Error("Cannot avoid two rooms in a row");
     }
+
     if (this.currentRoom) {
       this.gameDeck.putCardsOnBottom(this.currentRoom.cards);
+      this.currentRoom = null;
     }
-    this.avoidedPreviousRoom = true;
+
+    // draw a fresh 4-card room (no carry-over)
+    const cards = this.gameDeck.drawCards(4);
+
+    if (cards.length === 0) {
+      this.stateOfRun = "completed";
+      this.checkEndConditions();
+      return;
+    }
+
     this.roomIndex += 1;
-    this.currentRoom = null;
+    this.currentRoom = new Room(cards);
+    this.avoidedPreviousRoom = true;
   }
 
-  playerChooseCardToInteract(): void {
-    // - “player clicked card in UI”
-    //    - “Room resolves it, health changes, maybe go to next room or end run”
+  playerChooseCard(card: Card, useWeapon: boolean): void {
+    if (this.stateOfRun !== "in_progress") return;
+    if (!this.currentRoom) return;
+
+    this.currentRoom.resolveCard(card, this.player, this.gameDeck, useWeapon);
+
+    // check death / deck-empty etc
+    this.checkEndConditions();
+    if (this.stateOfRun !== "in_progress") return;
+
+    // if we’ve now resolved 3 cards in this room → auto move on
+    if (this.currentRoom.isResolved()) {
+      this.avoidedPreviousRoom = false;
+      this.advanceToNextRoom();
+      this.checkEndConditions();
+    }
+  }
+
+  private checkEndConditions(): void {
+    if (this.player.isDead()) {
+      this.stateOfRun = "failed";
+      return;
+    }
+
+    // deck empty and no current room cards → run completed
+    const noRoomCards =
+      !this.currentRoom || this.currentRoom.cards.length === 0;
+
+    if (this.gameDeck.isEmpty() && noRoomCards) {
+      this.stateOfRun = "completed";
+    }
   }
 
   scoreRun(): number {

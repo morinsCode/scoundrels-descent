@@ -30,4 +30,8 @@ export class GameDeck {
   remainingCards(): number {
     return this.drawPile.length;
   }
+
+  isEmpty(): boolean {
+    return this.drawPile.length === 0;
+  }
 }
