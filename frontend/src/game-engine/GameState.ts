@@ -71,7 +71,6 @@ export class GameState {
       this.currentRoom = null;
     }
 
-    // draw a fresh 4-card room (no carry-over)
     const cards = this.gameDeck.drawCards(4);
 
     if (cards.length === 0) {
@@ -91,11 +90,9 @@ export class GameState {
 
     this.currentRoom.resolveCard(card, this.player, this.gameDeck, useWeapon);
 
-    // check death / deck-empty etc
     this.checkEndConditions();
     if (this.stateOfRun !== "in_progress") return;
 
-    // if we’ve now resolved 3 cards in this room → auto move on
     if (this.currentRoom.isResolved()) {
       this.avoidedPreviousRoom = false;
       this.advanceToNextRoom();

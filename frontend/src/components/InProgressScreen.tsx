@@ -17,9 +17,8 @@ export function InProgressScreen({
   const isArmed = hasWeapon && useWeapon;
 
   const handleResolveCard = (card: any) => {
-    setErrorMessage(null); // Clear previous errors
+    setErrorMessage(null);
 
-    // Check if trying to use weapon against a monster
     if (
       card.cardType === "monster" &&
       isArmed &&
@@ -28,12 +27,11 @@ export function InProgressScreen({
       const monsterLevel = card.level;
       const maxKilled = gameState.player.weaponMaxMonsterValue;
 
-      // Check if monster is too strong for the weapon
       if (maxKilled !== null && monsterLevel > maxKilled) {
         setErrorMessage(
-          `Weapon level ${monsterLevel} to weak. Weapon has killed level ${maxKilled}. Fight unarmed`
+          `Monsters armor (${monsterLevel}) to strong. Weapon  (${maxKilled}) to dull. Fight unarmed`
         );
-        return; // Don't resolve the card
+        return;
       }
     }
 
@@ -50,6 +48,7 @@ export function InProgressScreen({
       </Typography>
       <Typography variant="h6">
         {/* TODO hardcoded total cards in deck for now */}
+        {/* TODO GameDeck needs Total Cards value, or does it? Total cards are always 44 */}
         Cards remaining: {gameDeck?.remainingCards()} / 44{" "}
       </Typography>
       <Typography variant="h6">
@@ -72,8 +71,8 @@ export function InProgressScreen({
       {errorMessage && (
         <Typography
           variant="body1"
-          color="error"
-          sx={{ mt: 2, p: 2, border: "1px solid red", borderRadius: "4px" }}
+          color="primary"
+          sx={{ mt: 2, p: 2, border: "1px solid purple", borderRadius: "20px" }}
         >
           {errorMessage}
         </Typography>

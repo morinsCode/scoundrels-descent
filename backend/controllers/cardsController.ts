@@ -1,6 +1,5 @@
 // === CONTROLLER FILE FOR CARDS ===
 
-// src/controllers/cardsController.ts
 import type { Request, Response, NextFunction } from "express";
 import { getRandomDeck } from "../services/cardsServices.js";
 

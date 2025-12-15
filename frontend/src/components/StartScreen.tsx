@@ -57,7 +57,7 @@ export function StartScreen({ onStartNewGame }: StartScreenProps) {
           <Button
             variant="contained"
             color="secondary"
-            onClick={onStartNewGame} // <-- actually use the prop
+            onClick={onStartNewGame}
           >
             Start Game
           </Button>

@@ -1,10 +1,8 @@
 // src/services/cardsService.ts
-import { pool } from "../database.js"; // # your pg Pool setup
+import { pool } from "../database.js"; // # database connection
+// #  naming convention differences handled here
 
-// # Two-Type System: Database vs. API
-// #  separation  important because it allows each layer of application to follow its own naming conventions while maintaining type safety throughout the transformation process.
-
-// # Raw DB row type (snake_case)
+// # snake_case DB
 type CardRow = {
   id: number;
   name: string;
@@ -14,7 +12,7 @@ type CardRow = {
   description: string;
 };
 
-// # What you send to frontend (camelCase)
+// camelCase types for API
 export type Card = {
   id: number;
   name: string;
@@ -24,7 +22,7 @@ export type Card = {
   description: string;
 };
 
-// # Function to map DB row to API Card type
+// #  map DB to API
 function mapRowToCard(row: CardRow): Card {
   return {
     id: row.id,

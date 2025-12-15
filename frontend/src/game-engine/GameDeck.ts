@@ -1,11 +1,3 @@
-// Class handling the game deck logic
-// fetching GET cards from database and managing the deck state
-// Props: drawPile: Card[]
-// Methods:
-// drawCards(count:number:Card[])
-// putCarsdsOnBottom(cards:Card[] | Card )
-// remainingCards(): number
-
 import type { Card } from "./types";
 
 export class GameDeck {

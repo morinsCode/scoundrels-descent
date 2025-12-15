@@ -27,9 +27,8 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [, forceUpdate] = useState(0); // Add this line
+  const [, forceUpdate] = useState(0);
 
-  // Fetch cards and create GameDeck on component mount
   useEffect(() => {
     async function initializeDeck() {
       try {
@@ -41,7 +40,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
         const deck = new GameDeck(cards);
         setGameDeck(deck);
 
-        //console.log with entire deck for debugging
+        // TODO : Remove
         console.log("Initialized deck:", deck);
         console.log("Total cards:", deck.remainingCards());
 
@@ -62,9 +61,10 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
     if (gameDeck) {
       console.log("Creating new GameState with drawPile:", gameDeck.drawPile);
       const state = new GameState(gameDeck.drawPile);
+      // TODO Remove logs
       console.log("GameState created:", state);
       console.log("Player health:", state.player.currentHealth);
-      /*  console.log("Current room cards:", state.currentRoom.cards); */
+
       console.log("State of run:", state.stateOfRun);
       setGameState(state);
     } else {

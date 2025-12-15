@@ -17,12 +17,10 @@ export class Room {
     _deck: GameDeck,
     useWeapon: boolean
   ): void {
-    // # Find and remove the card from this room
     this.cards = this.cards.filter((c) => c !== card);
 
-    // # Apply effect depending on card type
     switch (card.cardType) {
-      case "aid": // potions / healing
+      case "aid":
         this.resolveAid(card, player);
         break;
       case "weapon":
@@ -32,11 +30,10 @@ export class Room {
         this.resolveMonster(card, player, useWeapon);
         break;
       default:
-        // # if adding events,traps etc
+        // TODO if adding events,traps etc
         break;
     }
 
-    // # card has been resolved
     this.numberOfCardsResolved += 1;
   }
 
@@ -56,7 +53,6 @@ export class Room {
 
     const max = player.weaponMaxMonsterValue;
 
-    // # can weapon be used?
     const withinLimit = max === null || monsterValue <= max;
     const canUseWeapon = hasWeapon && withinLimit;
 
@@ -78,39 +74,4 @@ export class Room {
   isResolved(): boolean {
     return this.numberOfCardsResolved >= 3;
   }
-
-  /* 
-  private resolveMonster(card: Card, player: Player, useWeapon: boolean): void {
-    // TODO: decide barehand vs weapon attack and call player.adjustHealth / registerWeaponKill
-    // Option to fight barehanded or with weapon.
-    // Weapon reduces damage by its value.
-    // Weapon tracks the highest-value monster it has killed and can’t be used on stronger ones later.
-
-    const damage = card.level;
-
-    // check if weaponMaxMonsterValue < monster.level then force barehanded
-    if (
-      useWeapon &&
-      player.weaponCarried &&
-      player.weaponMaxMonsterValue !== null &&
-      card.level > player.weaponMaxMonsterValue
-    ) {
-      useWeapon = false; // force barehanded
-    }
-
-    //     if (useWeapon && player.weaponCarried) {
-    // Reduce damage by weapon value
-    //      damage -= player.weaponCarried.level;
-    // Register weapon kill
-    //      player.registerWeaponKill(card.level);
-    //    }
-
-    // Apply damage to player
-    player.adjustHealth(-damage);
-  }
-
-  isResolved(): boolean {
-    return this.numberOfCardsResolved >= 3;
-  }
-} */
 }

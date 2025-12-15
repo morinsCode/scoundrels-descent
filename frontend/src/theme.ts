@@ -1,9 +1,8 @@
-// src/theme.ts
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    mode: "light", // or 'dark'
+    mode: "light",
     primary: {
       main: "#1976d2",
       light: "#42a5f5",
@@ -31,10 +30,9 @@ const theme = createTheme({
   },
   spacing: 8,
   shape: {
-    borderRadius: 8 // Default border radius for components
+    borderRadius: 8
   },
   components: {
-    // Customize specific components globally
     MuiButton: {
       styleOverrides: {
         root: {
