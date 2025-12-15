@@ -22,6 +22,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [, forceUpdate] = useState(0); // Add this line
 
   // Fetch cards and create GameDeck on component mount
   useEffect(() => {
@@ -99,7 +100,7 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
                 color="primary"
                 onClick={() => {
                   gameState.startRun();
-                  setGameState({ ...gameState });
+                  forceUpdate((prev) => prev + 1); // Force re-render
                 }}
               >
                 Start Run
@@ -113,6 +114,38 @@ export function GameScreen({ onExitToMenu }: GameScreenProps) {
               <div>Room: {gameState.roomIndex}</div>
               <div>Health: {gameState.player.currentHealth}</div>
               <div>Cards remaining: {gameDeck?.remainingCards()}</div>
+
+              <div style={{ marginTop: "20px" }}>
+                <h3>Current Room Cards:</h3>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                  {gameState.currentRoom?.cards.map((card) => (
+                    <div
+                      key={card.id}
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        padding: "10px",
+                        width: "150px",
+                        textAlign: "center"
+                      }}
+                    >
+                      <img
+                        src={card.imageUrl}
+                        alt={card.name}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "4px"
+                        }}
+                      />
+                      <h4>{card.name}</h4>
+                      <p>Type: {card.cardType}</p>
+                      <p>Level: {card.level}</p>
+                      <p style={{ fontSize: "12px" }}>{card.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </>
           )}
 
