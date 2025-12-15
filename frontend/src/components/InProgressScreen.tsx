@@ -3,12 +3,44 @@ import { GameDeck } from "../game-engine/GameDeck";
 import { Room } from "../game-engine/Room";
 import type { InProgressScreenProps } from "../game-engine/types";
 import { Typography, Box, Button, Container } from "@mui/material";
+import { useState } from "react";
 
 export function InProgressScreen({
   gameState,
   gameDeck,
   onUpdate
 }: InProgressScreenProps) {
+  const [useWeapon, setUseWeapon] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const hasWeapon = gameState.player.weaponCarried !== null;
+  const isArmed = hasWeapon && useWeapon;
+
+  const handleResolveCard = (card: any) => {
+    setErrorMessage(null); // Clear previous errors
+
+    // Check if trying to use weapon against a monster
+    if (
+      card.cardType === "monster" &&
+      isArmed &&
+      gameState.player.weaponCarried
+    ) {
+      const monsterLevel = card.level;
+      const maxKilled = gameState.player.weaponMaxMonsterValue;
+
+      // Check if monster is too strong for the weapon
+      if (maxKilled !== null && monsterLevel > maxKilled) {
+        setErrorMessage(
+          `Weapon level ${monsterLevel} to weak. Weapon has killed level ${maxKilled}. Fight unarmed`
+        );
+        return; // Don't resolve the card
+      }
+    }
+
+    gameState.playerChooseCard(card, isArmed);
+    onUpdate();
+  };
+
   return (
     <>
       <Typography variant="h4">Game Screen</Typography>
@@ -17,15 +49,45 @@ export function InProgressScreen({
         Health: {gameState.player.currentHealth} / {gameState.player.maxHealth}
       </Typography>
       <Typography variant="h6">
-        Cards remaining: {gameDeck?.remainingCards()} / 44{" "}
         {/* TODO hardcoded total cards in deck for now */}
+        Cards remaining: {gameDeck?.remainingCards()} / 44{" "}
       </Typography>
       <Typography variant="h6">
-        Weapon Carried: {gameState.player.weaponCarried}
+        Weapon Carried: {gameState.player.weaponCarried?.name || "None"}
+        {gameState.player.weaponCarried &&
+          ` (Level ${gameState.player.weaponCarried.level})`}
+        {gameState.player.weaponMaxMonsterValue !== null &&
+          ` - Max Monster Killed: ${gameState.player.weaponMaxMonsterValue}`}
       </Typography>
-      <Button variant="outlined">Equip Weapon</Button>
-      <Button variant="outlined">Flee To Next Room</Button>
+      <Button
+        variant="outlined"
+        onClick={() => setUseWeapon(!useWeapon)}
+        disabled={!hasWeapon}
+      >
+        Toggle Weapon
+      </Button>
+      {isArmed && <Typography variant="h6">Armed</Typography>}
+      {!isArmed && <Typography variant="h6">Unarmed</Typography>}
 
+      {errorMessage && (
+        <Typography
+          variant="body1"
+          color="error"
+          sx={{ mt: 2, p: 2, border: "1px solid red", borderRadius: "4px" }}
+        >
+          {errorMessage}
+        </Typography>
+      )}
+
+      <Button
+        variant="outlined"
+        onClick={() => {
+          gameState.avoidRoom();
+          onUpdate();
+        }}
+      >
+        Flee To Next Room
+      </Button>
       <Box sx={{ marginTop: "20px" }}>
         <Typography variant="h5">Current Room Cards:</Typography>
         <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
@@ -56,10 +118,7 @@ export function InProgressScreen({
               </div>
               <Button
                 variant="outlined"
-                onClick={() => {
-                  gameState.playerChooseCard(card, false);
-                  onUpdate();
-                }}
+                onClick={() => handleResolveCard(card)}
               >
                 Resolve Card
               </Button>

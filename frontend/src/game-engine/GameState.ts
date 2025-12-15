@@ -1,4 +1,3 @@
-// imports for classes and types used in this file
 import type { Card, RunState } from "../game-engine/types";
 import { Player } from "../game-engine/Player";
 import { GameDeck } from "../game-engine/GameDeck";
@@ -12,8 +11,6 @@ export class GameState {
   roomIndex: number;
   avoidedPreviousRoom: boolean;
 
-  // # first room starts with 4 cards, Later rooms should be: carry-over + draw (up to) 3
-  /*   - Look at `currentRoom`’s remaining card(s) (carry-over). - Draw `needed = 4 - carryOver.length` from deck. - If there are no cards in deckat all → mark run `"completed"`. */
   constructor(deckCards: Card[]) {
     this.gameDeck = new GameDeck(deckCards);
     this.player = new Player();
@@ -53,7 +50,6 @@ export class GameState {
     const roomCards = [...carryOver, ...newCards];
 
     if (roomCards.length === 0) {
-      // no cards left anywhere → run is finished
       this.currentRoom = null;
       this.checkEndConditions();
       return;
@@ -113,7 +109,6 @@ export class GameState {
       return;
     }
 
-    // deck empty and no current room cards → run completed
     const noRoomCards =
       !this.currentRoom || this.currentRoom.cards.length === 0;
 
@@ -123,6 +118,7 @@ export class GameState {
   }
 
   scoreRun(): number {
+    // TODO: scoring logic
     // Implementation for scoring the run
     // score is calculated on levels of monsters defeated -  health lost + bonus point for completing full run (44 cards), total score POSTed to backend on "completed" or "failed"
     return 0;
