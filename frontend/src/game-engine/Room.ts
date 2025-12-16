@@ -50,25 +50,21 @@ export class Room {
     let damage = monsterValue;
 
     const hasWeapon = player.weaponCarried !== null;
-
     const max = player.weaponMaxMonsterValue;
-
     const withinLimit = max === null || monsterValue <= max;
     const canUseWeapon = hasWeapon && withinLimit;
-
     const willUseWeapon = useWeapon && canUseWeapon;
 
     if (willUseWeapon && player.weaponCarried) {
       damage = monsterValue - player.weaponCarried.level;
-
       if (damage < 0) {
         damage = 0;
       }
-
       player.registerWeaponKill(monsterValue);
     }
 
     player.adjustHealth(-damage);
+    player.recordMonsterDefeat(monsterValue);
   }
 
   isResolved(): boolean {

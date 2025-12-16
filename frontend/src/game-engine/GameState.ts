@@ -115,9 +115,27 @@ export class GameState {
   }
 
   scoreRun(): number {
-    // TODO: scoring logic
-    // Implementation for scoring the run
-    // score is calculated on levels of monsters defeated -  health lost + bonus point for completing full run (44 cards), total score POSTed to backend on "completed" or "failed"
-    return 0;
+    const monsterPoints = this.player.monstersDefeated.reduce(
+      (sum, level) => sum + level,
+      0
+    );
+
+    const healthPenalty = this.player.totalHealthLost;
+
+    const baseScore = monsterPoints - healthPenalty;
+
+    const completionMultiplier = this.stateOfRun === "completed" ? 2 : 1;
+
+    const finalScore = baseScore * completionMultiplier;
+
+    console.log("Score Calculation:", {
+      monsterPoints,
+      healthPenalty,
+      baseScore,
+      completionMultiplier,
+      finalScore
+    });
+
+    return finalScore;
   }
 }
