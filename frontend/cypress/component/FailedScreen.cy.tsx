@@ -18,32 +18,25 @@ describe("FailedRunScreen Component", () => {
     gameState.roomIndex = 5;
     gameState.player.currentHealth = 0;
 
-    gameState.player.monstersDefeated = [3, 5, 7, 14]; // Total 29 points
-    gameState.player.totalHealthLost = 10; // Health penalty 10 points
-
-    // Mock the scoreRun
-    cy.stub(gameState, "scoreRun").returns(29 - 10); // Total score 19 points
+    gameState.player.monstersDefeated = [3, 5, 7, 14];
+    gameState.player.totalHealthLost = 10;
 
     cy.mount(
       <TestWrapper>
         <FailedRunScreen gameState={gameState} />
       </TestWrapper>
     );
-    // Died in Room 5
+
     cy.contains("YOU DIED").should("be.visible");
     cy.contains("5").should("be.visible");
-    // Monsters defeated
-    cy.contains(/Monster points|Score for killed monsters/i).should(
-      "be.visible"
-    );
-    cy.contains("3,5,7,14").should("be.visible");
-    //Health lost
-    cy.contains(/Health penalty|damage taken/i).should("be.visible");
+
+    cy.contains("Monsters Defeated: 3, 5, 7, 14").should("be.visible");
+
+    cy.contains("Health lost penalty: -10").should("be.visible");
     cy.contains("10").should("be.visible");
-    // Total score
-    cy.contains(/Score:|Total Score:/i).should("be.visible");
-    cy.contains("29").should("be.visible");
-    // Final score
-    cy.contains("19").should("be.visible");
+
+    cy.contains("Points for monsters: 29").should("be.visible");
+
+    cy.contains("Final Score: 19").should("be.visible");
   });
 });
