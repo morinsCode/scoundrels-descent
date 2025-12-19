@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Engine Class Diagram</title>
+  </head>
+  <body>
+    <h1>Scoundrel's Descent - Game Engine Class Diagram</h1>
+
+    <pre class="mermaid">
+        %%{init: {'theme':'base', 'themeVariables': { 'fontFamily':'arial'}, 'flowchart': {'curve': 'linear'}}}%%
+classDiagram
+    class GameState {
+        +GameDeck gameDeck
+        +Player player
+        +Room currentRoom
+        +RunState stateOfRun
+        +int roomIndex
+        +boolean avoidedPreviousRoom
+        constructor(deckCards: Card[])
+        +startRun(): void
+        createFirstRoom(): void
+        advanceToNextRoom(): void
+        avoidRoom(): void
+        playerChooseCard(card: Card, useWeapon: boolean): void
+        checkEndConditions(): void
+        scoreRun(): number
+    }
+
+    class Player {
+        int maxHealth
+        int currentHealth
+        Card weaponCarried
+        int weaponMaxMonsterValue
+        int[] monstersDefeated
+        int totalHealthLost
+        constructor(maxHealth: number)
+        adjustHealth(amount: number): boolean
+        equipWeapon(newCard: Card): void
+        registerWeaponKill(monsterValue: number): void
+        recordMonsterDefeat(monsterLevel: number): void
+        isDead(): boolean
+    }
+
+    class GameDeck {
+        Card[] drawPile
+        constructor(cards: Card[])
+        drawCards(count: number): Card[]
+        putCardsOnBottom(cards: Card[]): void
+        remainingCards(): number
+        isEmpty(): boolean
+    }
+
+    class Room {
+        Card[] cards
+        int numberOfCardsResolved
+        constructor(cards: Card[])
+        resolveCard(card: Card, player: Player, deck: GameDeck, useWeapon: boolean): void
+        resolveAid(card: Card, player: Player): void
+        resolveWeapon(card: Card, player: Player): void
+        resolveMonster(card: Card, player: Player, useWeapon: boolean): void
+        isResolved(): boolean
+    }
+
+
+    </pre>
+    <!--     class Card {
+        &lt;&lt;interface&gt;&gt;
+        +string id
+        +string name
+        +string description
+        +CardType cardType
+        +int level
+        +string imageUrl
+    }
+
+    class CardType {
+        &lt;&lt;enumeration&gt;&gt;
+        aid
+        weapon
+        monster
+    }
+
+    class RunState {
+        &lt;&lt;enumeration&gt;&gt;
+        not_started
+        in_progress
+        failed
+        completed
+    }
+ -->
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>

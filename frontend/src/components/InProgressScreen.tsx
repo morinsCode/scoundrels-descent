@@ -84,6 +84,7 @@ export function InProgressScreen({
           gameState.avoidRoom();
           onUpdate();
         }}
+        disabled={gameState.avoidedPreviousRoom}
       >
         Flee To Next Room
       </Button>

@@ -63,7 +63,10 @@ export class GameState {
     if (this.stateOfRun !== "in_progress") return;
 
     if (this.avoidedPreviousRoom) {
-      throw new Error("Cannot avoid two rooms in a row");
+      /* throw new Error("Cannot avoid two rooms in a row"); */
+      if (this.avoidedPreviousRoom) {
+        return;
+      }
     }
 
     if (this.currentRoom) {

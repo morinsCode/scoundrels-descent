@@ -39,4 +39,7 @@ describe("FailedRunScreen Component", () => {
 
     cy.contains("Final Score: 19").should("be.visible");
   });
+
+  // TODO # Scenario: Submitting score with player name
+  //
 });
