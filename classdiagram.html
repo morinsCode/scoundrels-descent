@@ -18,54 +18,52 @@ classDiagram
         +RunState stateOfRun
         +int roomIndex
         +boolean avoidedPreviousRoom
-        constructor(deckCards: Card[])
+        +constructor(deckCards: Card[])
         +startRun(): void
-        createFirstRoom(): void
-        advanceToNextRoom(): void
-        avoidRoom(): void
-        playerChooseCard(card: Card, useWeapon: boolean): void
-        checkEndConditions(): void
-        scoreRun(): number
+        -createFirstRoom(): void
+        +advanceToNextRoom(): void
+        +avoidRoom(): void
+        +playerChooseCard(card: Card, useWeapon: boolean): void
+        -checkEndConditions(): void
+        +scoreRun(): number
     }
 
     class Player {
-        int maxHealth
-        int currentHealth
-        Card weaponCarried
-        int weaponMaxMonsterValue
-        int[] monstersDefeated
-        int totalHealthLost
-        constructor(maxHealth: number)
-        adjustHealth(amount: number): boolean
-        equipWeapon(newCard: Card): void
-        registerWeaponKill(monsterValue: number): void
-        recordMonsterDefeat(monsterLevel: number): void
-        isDead(): boolean
+        +int maxHealth
+        +int currentHealth
+        +Card weaponCarried
+        +int weaponMaxMonsterValue
+        +int[] monstersDefeated
+        +int totalHealthLost
+        +constructor(maxHealth: number)
+        +adjustHealth(amount: number): boolean
+        +equipWeapon(newCard: Card): void
+        +registerWeaponKill(monsterValue: number): void
+        +recordMonsterDefeat(monsterLevel: number): void
+        +isDead(): boolean
     }
 
     class GameDeck {
-        Card[] drawPile
-        constructor(cards: Card[])
-        drawCards(count: number): Card[]
-        putCardsOnBottom(cards: Card[]): void
-        remainingCards(): number
-        isEmpty(): boolean
+        +Card[] drawPile
+        +constructor(cards: Card[])
+        +drawCards(count: number): Card[]
+        +putCardsOnBottom(cards: Card[]): void
+        +remainingCards(): number
+        +isEmpty(): boolean
     }
 
     class Room {
-        Card[] cards
-        int numberOfCardsResolved
-        constructor(cards: Card[])
-        resolveCard(card: Card, player: Player, deck: GameDeck, useWeapon: boolean): void
-        resolveAid(card: Card, player: Player): void
-        resolveWeapon(card: Card, player: Player): void
-        resolveMonster(card: Card, player: Player, useWeapon: boolean): void
-        isResolved(): boolean
+        +Card[] cards
+        +int numberOfCardsResolved
+        +constructor(cards: Card[])
+        +resolveCard(card: Card, player: Player, deck: GameDeck, useWeapon: boolean): void
+        -resolveAid(card: Card, player: Player): void
+        -resolveWeapon(card: Card, player: Player): void
+        -resolveMonster(card: Card, player: Player, useWeapon: boolean): void
+        +isResolved(): boolean
     }
 
-
-    </pre>
-    <!--     class Card {
+    class Card {
         &lt;&lt;interface&gt;&gt;
         +string id
         +string name
@@ -89,7 +87,28 @@ classDiagram
         failed
         completed
     }
- -->
+
+    %% Associations %%
+GameState "1" --> "1" GameDeck : has
+GameState "1" --> "1" Player : has
+GameState "1" --> "0..1" Room : currentRoom
+
+GameDeck "1" --> "0..*" Card : drawPile
+Room "1" --> "0..*" Card : cards
+Player "1" --> "0..1" Card : weaponCarried
+
+GameState "1" --> "1" RunState : stateOfRun
+Card "1" --> "1" CardType : cardType
+
+
+%% Dependencies (used as parameters, not stored)
+Room ..> Player : uses (resolveCard)
+Room ..> GameDeck : uses (resolveCard)
+Room ..> Card : uses
+GameState ..> Card : uses (playerChooseCard)
+
+    </pre>
+
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
       mermaid.initialize({ startOnLoad: true });
