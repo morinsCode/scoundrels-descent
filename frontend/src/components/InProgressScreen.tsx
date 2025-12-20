@@ -91,7 +91,7 @@ export function InProgressScreen({
       <Box sx={{ marginTop: "20px" }}>
         <Typography variant="h5">Current Room Cards:</Typography>
         <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          {gameState.currentRoom?.cards.map((card) => (
+          {gameState.currentRoom?.cards.map((card, index) => (
             <Box key={card.id}>
               <div
                 style={{
@@ -119,6 +119,7 @@ export function InProgressScreen({
               <Button
                 variant="outlined"
                 onClick={() => handleResolveCard(card)}
+                data-testid={`resolve-card-${index}`}
               >
                 Resolve Card
               </Button>
