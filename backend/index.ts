@@ -1,5 +1,5 @@
 import express from "express";
-/* import { database } from "./database.ts"; */
+
 import { pool } from "./database.js";
 import type { QueryResult } from "pg";
 import cardsRouter from "./routes/cardsRoutes.js";
@@ -18,7 +18,7 @@ app.get("/api/db-test", async (req, res) => {
 
     res.json({
       status: "ok",
-      now: result.rows[0]?.now //optional chaining in case of empty result
+      now: result.rows[0]?.now
     });
   } catch (err) {
     console.error("Error in /db-test:", err);
