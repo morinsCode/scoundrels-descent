@@ -13,6 +13,12 @@ CREATE TABLE cards (
     description TEXT
 );
 
+CREATE TABLE highscore (
+    id SERIAL PRIMARY KEY,
+    player_name VARCHAR(100) NOT NULL,
+    score INT NOT NULL,
+    achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT INTO cards (name, card_type, level, image_url, description) 
 VALUES
