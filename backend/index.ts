@@ -3,11 +3,13 @@ import express from "express";
 import { pool } from "./database.js";
 import type { QueryResult } from "pg";
 import cardsRouter from "./routes/cardsRoutes.js";
+import highscoreRouter from "./routes/highscoreRoutes.js";
 
 const app = express();
 app.use(express.json());
 
 app.use("/api/cards", cardsRouter);
+app.use("/api", highscoreRouter);
 
 // === DB TEST ENDPOINT ===
 app.get("/api/db-test", async (req, res) => {
