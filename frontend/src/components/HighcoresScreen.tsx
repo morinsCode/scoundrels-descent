@@ -1,6 +1,11 @@
 import { useEffect } from "react";
+import { Typography } from "@mui/material";
 
-export function HighcoresScreen() {
+type HighcoresScreenProps = {
+  onBackToMenu: () => void;
+};
+
+export function HighcoresScreen({ onBackToMenu }: HighcoresScreenProps) {
   useEffect(() => {
     // This effect could be used to fetch highscore data when the component mounts
     async function fetchHighscores() {
@@ -21,8 +26,9 @@ export function HighcoresScreen() {
   }, []);
   return (
     <>
-      <div>Highscores</div>
+      <Typography variant="h4">Highscores</Typography>
       {/* Highscore list would be rendered here */}
+      <button onClick={onBackToMenu}>Back to Menu</button>
     </>
   );
 }
