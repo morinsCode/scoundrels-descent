@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { StartScreen } from "./components/StartScreen";
-
 import { GameScreen } from "./components/GameScreen";
 
 type Screen = "start" | "game";
@@ -17,6 +16,7 @@ export default function App() {
   }
 
   return (
+    // # OPTIONAL SCREEN RENDERING
     <>
       {screen === "start" && (
         <StartScreen onStartNewGame={handleStartNewGame} />
