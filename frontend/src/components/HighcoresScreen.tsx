@@ -1,25 +1,30 @@
-import { useEffect } from "react";
-import { Typography, Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Typography, Button, Box } from "@mui/material";
 import { ScreenLayout } from "../ScreenLayout";
+import sdlogo from "../assets/sdlogo.png";
 
 type HighcoresScreenProps = {
   onBackToMenu: () => void;
 };
 
 export function HighcoresScreen({ onBackToMenu }: HighcoresScreenProps) {
+  const [highscores, setHighscores] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    // This effect could be used to fetch highscore data when the component mounts
     async function fetchHighscores() {
       try {
         const response = await fetch("/api/highscores");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const highscores = await response.json();
-        // Handle the fetched highscores (e.g., set state)
-        console.log("Fetched highscores:", highscores);
+        const data = await response.json();
+        setHighscores(data);
+        setIsLoading(false);
       } catch (err) {
-        console.error("Failed to fetch highscores:", err);
+        setError(err instanceof Error ? err.message : "Failed to fetch");
+        setIsLoading(false);
       }
     }
 
@@ -28,8 +33,31 @@ export function HighcoresScreen({ onBackToMenu }: HighcoresScreenProps) {
 
   return (
     <ScreenLayout>
+      <Box
+        component="img"
+        src={sdlogo}
+        alt="Scoundrels Descent Logo"
+        sx={{
+          width: "100%",
+          maxWidth: 600,
+          height: "auto",
+          mx: "auto",
+          display: "block",
+          mb: 4
+        }}
+      />
       <Typography variant="h4">Highscores</Typography>
-      {/* Highscore list would be rendered here */}
+
+      {isLoading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">Error: {error}</Typography>}
+
+      {highscores.map((score, index) => (
+        <Typography key={index}>
+          {score.playerName} - {score.score} -{" "}
+          {new Date(score.achievedAt).toLocaleString()}
+        </Typography>
+      ))}
+
       <Button variant="contained" color="secondary" onClick={onBackToMenu}>
         Back to Menu
       </Button>
