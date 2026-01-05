@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
+import { ScreenLayout } from "../ScreenLayout";
 
 type HighcoresScreenProps = {
   onBackToMenu: () => void;
@@ -24,11 +25,14 @@ export function HighcoresScreen({ onBackToMenu }: HighcoresScreenProps) {
 
     fetchHighscores();
   }, []);
+
   return (
-    <>
+    <ScreenLayout>
       <Typography variant="h4">Highscores</Typography>
       {/* Highscore list would be rendered here */}
-      <button onClick={onBackToMenu}>Back to Menu</button>
-    </>
+      <Button variant="contained" color="secondary" onClick={onBackToMenu}>
+        Back to Menu
+      </Button>
+    </ScreenLayout>
   );
 }
