@@ -2,11 +2,11 @@ import { useState } from "react";
 import { GameState } from "../game-engine/GameState";
 import { Typography, TextField, Button } from "@mui/material";
 
-type FailedRunScreenProps = {
+type CompletedRunScreenProps = {
   gameState: GameState;
 };
 
-export function FailedRunScreen({ gameState }: FailedRunScreenProps) {
+export function CompletedRunScreen({ gameState }: CompletedRunScreenProps) {
   const [name, setName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);

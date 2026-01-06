@@ -15,13 +15,15 @@ import { fetchDbStatus, type DbStatus } from "./../api";
 type StartScreenProps = {
   onStartNewGame: () => void;
   onViewHighscores: () => void;
+  onViewHowToPlay: () => void;
 };
 
 // === COMPONENT
 
 export function StartScreen({
   onStartNewGame,
-  onViewHighscores
+  onViewHighscores,
+  onViewHowToPlay
 }: StartScreenProps) {
   const [dbStatus, setDbStatus] = useState<DbStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +67,11 @@ export function StartScreen({
           >
             Start Game
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={onViewHowToPlay}
+          >
             How To Play
           </Button>
           <Button
