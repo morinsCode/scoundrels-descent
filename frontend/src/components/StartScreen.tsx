@@ -16,6 +16,7 @@ type StartScreenProps = {
   onStartNewGame: () => void;
   onViewHighscores: () => void;
   onViewHowToPlay: () => void;
+  onViewAbout: () => void; // <- add
 };
 
 // === COMPONENT
@@ -23,7 +24,8 @@ type StartScreenProps = {
 export function StartScreen({
   onStartNewGame,
   onViewHighscores,
-  onViewHowToPlay
+  onViewHowToPlay,
+  onViewAbout // <- destructure
 }: StartScreenProps) {
   const [dbStatus, setDbStatus] = useState<DbStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +83,11 @@ export function StartScreen({
           >
             High Scores
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={onViewAbout} // <- wire About
+          >
             About
           </Button>
           {error && <p style={{ color: "red" }}>Error: {error}</p>}
