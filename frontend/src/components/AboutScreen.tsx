@@ -24,7 +24,7 @@ export function AboutScreen({ onBackToMenu }: AboutScreenProps) {
         }}
       />
       <Typography variant="h4" sx={{ mb: 2 }}>
-        About Scoundrels Descent
+        About
       </Typography>
       <Typography variant="body1" sx={{ mb: 2 }}>
         Inspired by Scoundrel (Solitaire Card Game) This project is based on the
@@ -45,6 +45,17 @@ export function AboutScreen({ onBackToMenu }: AboutScreenProps) {
         change as the game evolves.
       </Typography>
 
+      <Typography variant="h5">About the creator</Typography>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        Hi — I’m Moe, a fullstack JavaScript developer-in-training (and
+        long-time tabletop RPG nerd) building Scoundrels Descent as a portfolio
+        project and a way to ship something fun, polished, and actually
+        playable. What I care about in this project: Tight gameplay loops
+        (simple rules, painful decisions) Readable UI (clarity beats clutter)
+        Atmosphere and narration layered on top of solid mechanics You can treat
+        this as a living project: it’ll keep evolving as I improve the codebase,
+        the presentation, and the content.
+      </Typography>
       <Button variant="contained" color="secondary" onClick={onBackToMenu}>
         Back to Menu
       </Button>

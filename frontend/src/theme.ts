@@ -4,12 +4,12 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#1976d2",
-      light: "#42a5f5",
+      main: "#f7b10eff",
+      light: "#f7b10eff",
       dark: "#1565c0"
     },
     secondary: {
-      main: "#60196dff"
+      main: "#a7790dff"
     },
     background: {
       default: "#0e0c0cff",
@@ -25,7 +25,7 @@ const theme = createTheme({
     body1: {
       fontSize: "1rem",
       lineHeight: 1.5,
-      color: "#ffffff"
+      color: "#fff2d2ff"
     }
   },
   spacing: 8,
