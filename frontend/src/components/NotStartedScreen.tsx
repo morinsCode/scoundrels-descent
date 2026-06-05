@@ -6,7 +6,9 @@ type NotStartedScreen = {
   onStart: () => void;
 };
 
-export function NotStartedScreen({ gameState, onStart }: NotStartedScreen) {
+export function NotStartedScreen({
+  /* gameState,*/ onStart
+}: NotStartedScreen) {
   return (
     <>
       <div>Ready to Start</div>

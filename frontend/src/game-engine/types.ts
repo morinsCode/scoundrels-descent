@@ -1,3 +1,6 @@
+import type { GameState } from "./GameState";
+import type { GameDeck } from "./GameDeck";
+
 export type Card = {
   id: number;
   name: string;

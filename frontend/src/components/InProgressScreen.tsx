@@ -1,7 +1,7 @@
 /* import { GameState } from "../game-engine/GameState";
 import { GameDeck } from "../game-engine/GameDeck";
 import { Room } from "../game-engine/Room"; */
-import type { InProgressScreenProps } from "../game-engine/types";
+import type { Card, InProgressScreenProps } from "../game-engine/types";
 import { Typography, Box, Button } from "@mui/material";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ export function InProgressScreen({
   const hasWeapon = gameState.player.weaponCarried !== null;
   const isArmed = hasWeapon && useWeapon;
 
-  const handleResolveCard = (card: any) => {
+  const handleResolveCard = (card: Card) => {
     setErrorMessage(null);
 
     if (
@@ -91,7 +91,7 @@ export function InProgressScreen({
       <Box sx={{ marginTop: "20px" }}>
         <Typography variant="h5">Current Room Cards:</Typography>
         <Box sx={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          {gameState.currentRoom?.cards.map((card, index) => (
+          {gameState.currentRoom?.cards.map((card: Card, index: number) => (
             <Box key={card.id}>
               <div
                 style={{
