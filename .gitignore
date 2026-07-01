@@ -24,3 +24,7 @@ frontend/dist
 // === EDITOR ===
 .vscode/
 .idea/
+
+
+//  === Environment files
+.env

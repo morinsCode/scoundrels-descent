@@ -3,9 +3,9 @@ services:
     image: postgres:17
     container_name: scoundrels-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: scoundrel_dev
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -23,7 +23,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      PGURI: postgres://postgres:password@postgres:5432/scoundrel_dev
+      PGURI: ${PGURI}
     depends_on:
       postgres:
         condition: service_healthy
