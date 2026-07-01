@@ -1,30 +1,22 @@
-// === BACKEND ===
+# === Backend ===
 backend/dist
-/backend/node_modules
-/backend/.env
+backend/node_modules
+backend/.env
 
-
-
-
-
-// === FRONTEND ===
-
-frontend/node_modules
+# === Frontend ===
 frontend/dist
+frontend/node_modules
 
+# === Environment ===
+.env
 
-
-// === GENERAL ===
+# === Logs ===
 *.log
 *.tsbuildinfo
 
-// === OS ===
-.DS_Store
-
-// === EDITOR ===
+# === Editor ===
 .vscode/
 .idea/
 
-
-//  === Environment files
-.env
+# === OS ===
+.DS_Store

@@ -2,6 +2,8 @@ services:
   postgres:
     image: postgres:17
     container_name: scoundrels-postgres
+    restart: unless-stopped
+
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -12,7 +14,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d scoundrel_dev"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,21 +22,28 @@ services:
   backend:
     build: ./backend
     container_name: scoundrels-backend
-    ports:
-      - "3000:3000"
-    environment:
-      PGURI: ${PGURI}
+    restart: unless-stopped
+
     depends_on:
       postgres:
         condition: service_healthy
 
+    environment:
+      PGURI: ${PGURI}
+
+    ports:
+      - "3000:3000"
+
   frontend:
     build: ./frontend
     container_name: scoundrels-frontend
-    ports:
-      - "5173:80"
+    restart: unless-stopped
+
     depends_on:
       - backend
+
+    ports:
+      - "5173:80"
 
 volumes:
   postgres-data:

@@ -1,6 +1,6 @@
 # Scoundrels Descent
 
-A browser-based dungeon crawler card game, inspired by the card game *Scoundrel*. Built as a learning project to practice TypeScript, fullstack architecture, and class-based game logic.
+A browser-based dungeon crawler card game, inspired by the card game _Scoundrel_. Built as a learning project to practice TypeScript, fullstack architecture, and class-based game logic.
 
 ---
 
@@ -14,12 +14,18 @@ The run ends either when the deck is exhausted (success) or when the player's he
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
+| Layer    | Technology                      |
+| -------- | ------------------------------- |
 | Frontend | React 19, TypeScript, Vite, MUI |
-| Backend | Node.js, Express 5, TypeScript |
-| Database | PostgreSQL |
-| Testing | Cypress (component + e2e) |
+| Backend  | Node.js, Express 5, TypeScript  |
+| Database | PostgreSQL                      |
+| Testing  | Cypress (component + e2e)       |
+
+---
+
+## Deployment
+
+The application is fully containerized using Docker and Docker Compose. The frontend, backend, and PostgreSQL database each run in separate containers connected through an internal Docker network. Database initialization is automatic, and the stack is designed to be deployed to a Linux VPS with minimal configuration.
 
 ---
 
@@ -103,42 +109,82 @@ All game logic runs on the client. The backend only stores cards and high scores
 
 ---
 
-## Running Locally
+## Running with Docker
 
-**Prerequisites:** Node.js, PostgreSQL
+### Prerequisites
 
-**1. Set up the database**
+- Docker
+- Docker Compose
 
-```bash
-psql -U postgres -c "CREATE DATABASE scoundrels_descent;"
-psql -U postgres -d scoundrels_descent -f init.sql
-```
+No local installation of Node.js or PostgreSQL is required.
 
-**2. Configure backend environment**
+### Setup
 
-Create `backend/.env`:
-
-```
-DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/scoundrels_descent
-```
-
-**3. Start the backend**
+Clone the repository and create your environment file:
 
 ```bash
-cd backend
-npm install
-npm run dev
+cp .env.example .env
 ```
 
-**4. Start the frontend**
+Edit `.env` if you want to use different database credentials.
+
+### Start the application
+
+Build the images and start all services:
 
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose up --build
 ```
 
-Frontend runs on `http://localhost:5173`, backend on `http://localhost:3000`.
+The first startup will:
+
+- Build the frontend and backend Docker images
+- Create a PostgreSQL container
+- Initialize the database using `init.sql`
+- Wait for PostgreSQL to become healthy
+- Start the backend
+- Start the frontend
+
+The application will be available at:
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3000
+
+### Stop the application
+
+```bash
+docker compose down
+```
+
+### Reset the database
+
+To recreate the database from scratch:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+The `-v` flag removes the PostgreSQL volume, causing the database to be recreated and seeded from `init.sql` during the next startup.
+
+---
+
+## Architecture
+
+```
+Browser
+    │
+    ▼
+ Nginx (Frontend)
+    │
+    ▼
+Express API (Backend)
+    │
+    ▼
+PostgreSQL
+```
+
+Docker Compose orchestrates all three services, including networking, database initialization, health checks, and service startup order.
 
 ---
 
