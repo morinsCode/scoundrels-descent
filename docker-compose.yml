@@ -11,7 +11,10 @@ services:
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro,Z
+
+    expose:
+      - "5432"
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d ${POSTGRES_DB}"]
@@ -31,8 +34,8 @@ services:
     environment:
       PGURI: ${PGURI}
 
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
 
   frontend:
     build: ./frontend
@@ -43,7 +46,7 @@ services:
       - backend
 
     ports:
-      - "5173:80"
+      - "80:80"
 
 volumes:
   postgres-data:
