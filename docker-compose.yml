@@ -45,8 +45,17 @@ services:
     depends_on:
       - backend
 
-    ports:
-      - "80:80"
+    expose:
+      - "80"
+
+    networks:
+      - default
+      - web
 
 volumes:
   postgres-data:
+
+networks:
+  web:
+    external: true
+    name: morinscode-web
